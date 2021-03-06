@@ -3,14 +3,32 @@
 extern "C" {
 	GPIO_PinState HAL_GPIO_ReadPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 	void delay_us(uint32_t delay);
+	void setInput(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 }
 void DHT11::DHT11StartSignal()
 {
+	HAL_GPIO_WritePin(GPIO, GPIO_Pin_Num, 0);
+	HAL_Delay(18);
+	HAL_GPIO_WritePin(GPIO, GPIO_Pin_Num, 1);
+	delay_us(20);
+	setInput(GPIO, GPIO_Pin_Num);
 }
 
 uint8_t DHT11::DHT11Response()
 {
-	return uint8_t();
+	uint8_t res = 0;
+	/*get response*/
+	delay_us(40);
+	if (!HAL_GPIO_ReadPin(GPIO, GPIO_Pin_Num));
+	{
+		delay_us(80);
+		if (HAL_GPIO_ReadPin(GPIO, GPIO_Pin_Num))
+			res = 1;
+		else
+			res = -1;
+	}
+	while (HAL_GPIO_ReadPin(GPIO, GPIO_Pin_Num)); //wait to pin goes low
+	return res;
 }
 
 uint8_t DHT11::DHT11_ReadData()
