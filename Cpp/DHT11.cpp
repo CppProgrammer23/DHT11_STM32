@@ -79,7 +79,7 @@ float DHT11::DHT11_GetTemperature()
 
 float DHT11::DHT11_ConvertToCelsuis(float t)
 {
-	return DHT11_ConvertToFahr(t)-32) /1.8;
+	return (t-32) /1.8;
 }
 
 float DHT11::DHT11_ConvertToFahr(float t)
